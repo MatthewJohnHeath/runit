@@ -21,6 +21,19 @@ macro_rules! count_non_zero {
     };
 }
 
+#[macro_export]
+macro_rules! remove_zeroes {
+    ( $iterable:expr )  => {
+        {
+           let mut array = [0; count_non_zero!($iterable)];
+           for (&from, &mut ref mut to ) in $iterable.iter().filter(|&n| n != &0).zip(array.iter_mut()){
+            *to = from
+            }
+            array
+        }
+    };
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -38,6 +51,10 @@ mod tests {
         assert_eq!(count, 3);
     }
 
-
+    #[test]
+    fn removes_zeros() {
+        let one_two_three  = remove_zeroes!(&NUMBERS);
+        assert_eq!([1,2,3], one_two_three);
+    }
 
 }
