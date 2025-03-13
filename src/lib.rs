@@ -12,6 +12,15 @@ macro_rules! make_array {
     };
 }
 
+#[macro_export]
+macro_rules! count_non_zero {
+    ( $iterable:expr )  => {
+        {
+           $iterable.iter().filter(|&n| n != &0).count()
+        }
+    };
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -22,5 +31,13 @@ mod tests {
         let also_numbers = make_array!(&NUMBERS);
         assert_eq!(also_numbers, NUMBERS);
     }
+
+    #[test]
+    fn counts_non_zero() {
+        let count  = count_non_zero!(&NUMBERS);
+        assert_eq!(count, 3);
+    }
+
+
 
 }
